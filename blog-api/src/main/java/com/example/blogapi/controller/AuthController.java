@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -23,13 +21,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestBody User user) {
-
         User dbUser = userRepository.findByUsername(user.getUsername()).orElseThrow();
-
-        if (dbUser.getPassword().equals(user.getPassword())) {
+        if(dbUser.getPassword().equals(user.getPassword())) {
             return jwtUtil.generateToken(user.getUsername());
         }
-
         throw new RuntimeException("Hatalı giriş");
     }
 }
